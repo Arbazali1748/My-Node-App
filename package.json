@@ -1,9 +1,9 @@
 {
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "nodemon server.js",
     "build": "prisma generate",
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "@prisma/client": "^7.0.0",
