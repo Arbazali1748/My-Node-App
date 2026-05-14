@@ -1,22 +1,25 @@
 import "dotenv/config";
 import express from "express";
+import { fileURLToPath } from "url";
 import Router from "./Routes/index.js";
 
 const app = express();
-const Port = process.env.Port || 3000;
+const PORT = process.env.Port || process.env.PORT || 3000;
+
+const __filename = fileURLToPath(import.meta.url);
 
 app.use(express.json());
 
-app.get('/', (req, resp) => {
-    return resp.send("Hi Everyone.");
+app.get("/", (req, res) => {
+  res.send("API Working");
 });
 
-// Route file Setting Here
 app.use("/api", Router);
 
-// Server startup for local development
-if (process.env.NODE_ENV !== "production") {
-    app.listen(Port, () => console.log(`server is running on port ${Port}`));
+if (process.argv[1] === __filename) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 }
 
 export default app;
