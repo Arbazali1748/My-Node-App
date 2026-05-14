@@ -15,39 +15,18 @@ const pool = new Pool({
 const adapter = new PrismaPg(pool);
 
 // Singleton pattern to ensure Prisma is instantiated only once
-let prisma;
+// Using globalThis instead of global for better ESM compatibility
+const globalForPrisma = globalThis;
 
-if (global.prisma) {
-  prisma = global.prisma;
-} else {
-  prisma = new PrismaClient({
+const prisma =
+  globalForPrisma.prisma ||
+  new PrismaClient({
     adapter,
     log: ["query"],
   });
-  global.prisma = prisma;
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
 }
 
 export default prisma;
-
-// for local development, we can use localhost
-
-// import pkg from "@prisma/client";
-// const { PrismaClient } = pkg;
-
-// import { PrismaPg } from "@prisma/adapter-pg";
-// import { Pool } from "pg";
-
-// const connectionString = process.env.DATABASE_URL;
-
-// const pool = new Pool({ connectionString });
-
-// const adapter = new PrismaPg(pool);
-
-// const prisma = new PrismaClient({
-//     adapter,
-//     log: ['query'],
-// });
-
-// export default prisma;
-
-// for neon, we need to use the connection string provided by Neon
