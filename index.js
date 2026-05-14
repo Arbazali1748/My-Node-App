@@ -11,4 +11,6 @@ app.get('/', (req, resp) => {
 
 app.use("/api", Router);
 
-app.listen(Port, () => console.log(`server is  running on port ${Port}`))
+
+//app.listen(Port, () => console.log(`server is  running on port ${Port}`))
+export default app;
