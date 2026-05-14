@@ -7,9 +7,6 @@ app.use(express.json());
 app.get('/', (req, resp) => {
     return resp.send("Hi Everyone.");
 })
-// Route file Setting Here
-
-app.use("/api", Router);
 
 // Route file Setting Here
 app.use("/api", Router);
