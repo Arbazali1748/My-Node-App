@@ -11,6 +11,13 @@ app.get('/', (req, resp) => {
 
 app.use("/api", Router);
 
+// Route file Setting Here
+app.use("/api", Router);
+
+// Server startup for local development
+if (process.env.NODE_ENV !== "production") {
+    app.listen(Port, () => console.log(`server is running on port ${Port}`));
+}
 
 //app.listen(Port, () => console.log(`server is  running on port ${Port}`))
 export default app;
