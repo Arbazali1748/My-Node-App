@@ -8,5 +8,6 @@ const prisma = new PrismaClient({
 });
 
 console.log("Prisma connected");
+console.log("Prisma connected");
 
 export default prisma;
