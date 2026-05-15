@@ -10,10 +10,6 @@ app.get("/", (req, res) => {
   res.send("API Working");
 });
 
-app.get("/health", (req, res) => {
-  res.status(200).json({ status: "ok" });
-});
-
 app.use("/api", Router);
 
 export default app;

@@ -3,16 +3,16 @@ import { Postcreated, PostUpdate, PostSoftActive, PostSoftDelete, getPostById, g
 import authMiddleware from "../Middleware/Middleware.js";
 import adminOnly from "../Middleware/AuthorizationMIddleware.js";
 
-const router = express.Router();
+const Router = express.Router();
 
-router.post('/',authMiddleware ,Postcreated);
-router.put('/PostSoftActive', authMiddleware, PostSoftActive);
-router.put('/:id', authMiddleware, PostUpdate);
-router.delete('/PostSoftDelete/:id', authMiddleware, PostSoftDelete);
-router.get('/getUserPostList', authMiddleware, getUserPostList);
-router.get('/:id', authMiddleware, getPostById);
-router.get('/',authMiddleware,adminOnly, getPostList);
-router.delete('/:id', authMiddleware, deletePost);
+Router.post('/', authMiddleware, Postcreated);
+Router.put('/PostSoftActive', authMiddleware, PostSoftActive);
+Router.put('/:id', authMiddleware, PostUpdate);
+Router.delete('/PostSoftDelete/:id', authMiddleware, PostSoftDelete);
+Router.get('/getUserPostList', authMiddleware, getUserPostList);
+Router.get('/:id', authMiddleware, getPostById);
+Router.get('/', authMiddleware, adminOnly, getPostList);
+Router.delete('/:id', authMiddleware, deletePost);
 
 
-export default router;
+export default Router;

@@ -1,6 +1,7 @@
 import prisma from "../DB/db.config.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { getUserPermissions } from "./RoleBasePermissionController.js";
 import { generateAccessToken } from "./Common.js";
 
 //Register User Api
@@ -8,7 +9,7 @@ export const RegisterUser = async (req, resp) => {
 
     try {
 
-        const { name, email, password } = req.body;
+        const { name, email, password, roleId } = req.body;
 
         // check existing user
         const userExist = await prisma.user.findUnique({
@@ -31,18 +32,46 @@ export const RegisterUser = async (req, resp) => {
             data: {
                 name,
                 email,
-                password: hashedPassword
+                password: hashedPassword,
+                roleId: roleId
+            }
+        });
+        const permissions = await prisma.permissionMap.findMany();
+
+        const rolePermissions = await Promise.all(
+            permissions.map((perm) =>
+                prisma.roleBasePermission.create({
+                    data: {
+                        roleId: roleId,
+                        permissionMapId: perm.id,
+                        status: true
+                    }
+                })
+            )
+        );
+        // geenrteing token
+        const accessToken = generateAccessToken(user);
+        // get role name
+        const userRoleName = await prisma.role.findUnique({
+            where: {
+                id: user.roleId
             }
         });
 
-        // geenrteing token
-        const accessToken = generateAccessToken(user);
-
+        // Get User Permissions
+        const UserPermissions = await getUserPermissions(user.roleId);
 
         return resp.json({
-            message: "User Registered",
+            message: "User Registered Successfully.",
             accessToken,
-            user
+            userData: {
+                Id: user.id,
+                name: user.name,
+                email: user.email,
+                rolename: userRoleName?.name,
+                roleId: user.roleId,
+                Permissions: UserPermissions
+            }
         });
 
     } catch (error) {
@@ -89,12 +118,30 @@ export const Newlogin = async (req, resp) => {
         // geenrteing token
         const accessToken = generateAccessToken(user);
 
+        //get rolename
+        const userRoleName = await prisma.role.findUnique({
+            where: {
+                id: user.roleId
+            }
+        });
+
+        const UserPermissions = await getUserPermissions(user.roleId);
+
+        // Get Permission Here
         return resp.json({
             status: 200,
-
             message: "Login Success",
-            accessToken
-        });
+            token: accessToken,
+            userData: {
+                Id: user.id,
+                name: user.name,
+                email: user.email,
+                rolename: userRoleName?.name,
+                roleId: user.roleId,
+                permissions: UserPermissions
+            }
+        }
+        );
 
     } catch (error) {
 

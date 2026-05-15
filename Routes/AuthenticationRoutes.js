@@ -1,11 +1,11 @@
 import { Router } from "express";
 
-import { RegisterUser, Newlogin} from "../Controller/JwtController.js";
+import { RegisterUser, Newlogin } from "../Controller/JwtController.js";
 
-const route = Router();
+const Route = Router();
 
-route.post("/RegisterUser", RegisterUser);
+Route.post("/RegisterUser", RegisterUser);
 
-route.post("/Newlogin", Newlogin);
+Route.post("/Newlogin", Newlogin);
 
-export default route;
+export default Route;

@@ -11,7 +11,8 @@ export const usercreated = async (req, resp) => {
             password,
             age,
             is_active,
-            balance
+            balance,
+            RoleId
         } = req.body;
 
         const finduser = await prisma.user.findUnique({
@@ -33,10 +34,12 @@ export const usercreated = async (req, resp) => {
                 password,
                 age: Number(age),
                 balance,
-                is_active
+                is_active,
+                roleId:RoleId
             }
         });
 
+        
         return resp.status(200).json({
             data: createnewuser
         });
@@ -85,7 +88,8 @@ export const userUpdate = async (req, resp) => {
                 password: req.body.password,
                 age: req.body.age ? Number(req.body.age) : undefined,
                 is_active: req.body.is_active,
-                balance: req.body.balance ? Number(req.body.balance) : undefined
+                balance: req.body.balance ? Number(req.body.balance) : undefined,
+                roleId:req.body.RoleId
             }
         });
 

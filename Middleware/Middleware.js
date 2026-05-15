@@ -19,7 +19,8 @@ const authMiddleware = (req, resp, next) => {
         );
 
         req.user = verifyToken;
-
+ 
+    
         next();
 
     } catch (error) {

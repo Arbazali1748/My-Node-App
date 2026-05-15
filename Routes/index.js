@@ -1,9 +1,11 @@
 import { Router } from "express";
-import userroute from "./UserRoutes.js";
+import Userroute from "./UserRoutes.js";
 import Postroute from "./PostRoutes.js";
+import RoleRoute from "./RolesRoutes.js";
 import AuthenticationRoutes from "./AuthenticationRoutes.js";
-const routed = Router();
-routed.use("/user", userroute);
-routed.use("/post", Postroute);
-routed.use("/Authentication", AuthenticationRoutes);
-export default routed;
+const Route = Router();
+Route.use("/Authentication", AuthenticationRoutes);
+Route.use("/Role", RoleRoute);
+Route.use("/user", Userroute);
+Route.use("/post", Postroute);
+export default Route;
